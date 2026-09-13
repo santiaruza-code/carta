@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import date
+import streamlit.components.v1 as components
 
 # ============================================================
 # CONFIGURACIÓN
@@ -12,14 +12,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ============================================================
-# DATOS PARA PERSONALIZAR
-# ============================================================
-
 NOMBRE_NOVIA = "Mi amor"
-
-# Cambiá esta fecha por el día que empezaron a estar juntos
-FECHA_INICIO = date(2025, 1, 1)
 
 # Preguntas de la trivia
 TRIVIA = [
@@ -56,161 +49,100 @@ TRIVIA = [
 ]
 
 # ============================================================
-# ESTILOS
+# ESTILOS MODO OSCURO (FONDO NEGRO Y TEXTO LEGIBLE)
 # ============================================================
 
 st.markdown("""
 <style>
-
-    /* Fondo general */
+    /* Fondo general negro */
     .stApp {
-        background: linear-gradient(
-            180deg,
-            #fff0f5 0%,
-            #ffe4ec 50%,
-            #fff5f7 100%
-        );
+        background-color: #0b0b0d !important;
     }
 
-    /* Contenedor principal */
-    .main {
-        max-width: 700px;
-        padding: 20px;
+    /* Textos generales en blanco */
+    .stApp p, .stApp label, .stMarkdown, h1, h2, h3, span {
+        color: #ffffff !important;
     }
 
-    /* Título */
-    .titulo {
-        text-align: center;
-        color: #c2185b;
-        font-size: 42px;
-        font-weight: 800;
-        margin-top: 15px;
-        margin-bottom: 5px;
-    }
-
-    .subtitulo {
-        text-align: center;
-        color: #8e3658;
-        font-size: 19px;
-        margin-bottom: 25px;
-    }
-
-    /* Tarjetas */
+    /* Tarjetas oscuras con borde rosa neón */
     .tarjeta {
-        background: rgba(255,255,255,0.85);
-        border-radius: 22px;
+        background: #16161a;
+        border-radius: 20px;
         padding: 25px;
-        margin: 18px 0;
-        box-shadow: 0px 6px 20px rgba(194, 24, 91, 0.12);
-        border: 1px solid rgba(194, 24, 91, 0.10);
+        margin: 20px 0;
+        border: 1px solid #ff2e63;
+        box-shadow: 0px 4px 20px rgba(255, 46, 99, 0.2);
     }
 
     .tarjeta h2 {
-        color: #c2185b;
+        color: #ff2e63 !important;
+        text-align: center;
     }
 
     .mensaje {
         text-align: center;
-        font-size: 21px;
-        color: #6d2141;
+        font-size: 19px;
+        color: #e0e0e0 !important;
         line-height: 1.6;
     }
 
-    /* Contador */
-    .contador {
+    .titulo {
         text-align: center;
-        background: linear-gradient(135deg, #e91e63, #c2185b);
-        color: white;
-        border-radius: 25px;
-        padding: 25px;
-        margin: 20px 0;
-        box-shadow: 0px 8px 25px rgba(194,24,91,0.25);
+        color: #ff2e63 !important;
+        font-size: 40px;
+        font-weight: 800;
+        margin-top: 10px;
     }
 
-    .numero {
-        font-size: 45px;
-        font-weight: bold;
-    }
-
-    /* Carta */
-    .carta {
-        background: #fffaf0;
-        border-radius: 15px;
-        padding: 30px;
-        margin-top: 20px;
-        color: #4a3030;
+    .subtitulo {
+        text-align: center;
+        color: #ff85a2 !important;
         font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .corazones {
+        text-align: center;
+        font-size: 26px;
+        letter-spacing: 8px;
+        margin: 10px 0;
+    }
+
+    /* Carta estilo pergamino oscuro */
+    .carta {
+        background: #1f1f24;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 15px;
+        color: #f1f1f1 !important;
+        font-size: 17px;
         line-height: 1.8;
-        box-shadow: 0px 5px 18px rgba(80,40,40,0.12);
-        border: 1px solid #f2d7b5;
+        border: 1px solid #ff2e63;
     }
 
     .firma {
         text-align: right;
-        margin-top: 25px;
+        margin-top: 20px;
         font-weight: bold;
-        color: #c2185b;
+        color: #ff2e63 !important;
     }
 
-    /* Corazones */
-    .corazones {
-        text-align: center;
-        font-size: 27px;
-        letter-spacing: 8px;
-        margin: 15px 0;
-    }
-
-    /* Botones */
+    /* Estilo de botones */
     .stButton > button {
         width: 100%;
-        border-radius: 15px;
-        min-height: 50px;
-        font-size: 17px;
-        font-weight: 600;
+        border-radius: 12px;
+        min-height: 48px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #ff2e63 !important;
+        color: white !important;
+        border: none !important;
     }
 
-    /* Ocultar menú y footer */
-    #MainMenu {
+    /* Ocultar elementos de interfaz */
+    #MainMenu, footer, header {
         visibility: hidden;
     }
-
-    footer {
-        visibility: hidden;
-    }
-
-    /* Mobile */
-    @media (max-width: 600px) {
-
-        .main {
-            padding: 12px;
-        }
-
-        .titulo {
-            font-size: 32px;
-        }
-
-        .subtitulo {
-            font-size: 17px;
-        }
-
-        .tarjeta {
-            padding: 20px;
-        }
-
-        .mensaje {
-            font-size: 18px;
-        }
-
-        .numero {
-            font-size: 38px;
-        }
-
-        .carta {
-            padding: 22px;
-            font-size: 17px;
-        }
-    }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -230,47 +162,36 @@ if "puntos" not in st.session_state:
 if "trivia_terminada" not in st.session_state:
     st.session_state.trivia_terminada = False
 
-if "respuesta_final" not in st.session_state:
-    st.session_state.respuesta_final = False
+if "acepto" not in st.session_state:
+    st.session_state.acepto = False
+
+if "intentos_no" not in st.session_state:
+    st.session_state.intentos_no = 0
 
 # ============================================================
 # PORTADA
 # ============================================================
 
-st.markdown(
-    '<div class="titulo">💌 Para vos</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    f'<div class="subtitulo">Una pequeña sorpresa para {NOMBRE_NOVIA} ❤️</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<div class="corazones">❤️ 💗 💕 💖 💘</div>',
-    unsafe_allow_html=True
-)
+st.markdown('<div class="titulo">💌 Para vos</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="subtitulo">Una pequeña sorpresa para {NOMBRE_NOVIA} ❤️</div>', unsafe_allow_html=True)
+st.markdown('<div class="corazones">❤️ 💗 💕 💖 💘</div>', unsafe_allow_html=True)
 
 # ============================================================
 # BOTÓN DE INICIO
 # ============================================================
 
 if not st.session_state.inicio:
-
     st.markdown("""
     <div class="tarjeta">
         <div class="mensaje">
             Preparé esto especialmente para vos.<br><br>
             No es una página cualquiera...<br>
-            es un pequeño recorrido por algunas cosas
-            que hacen especial nuestra historia. 💕
+            es un pequeño recorrido por nuestra historia. 💕
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     if st.button("💖 Abrir mi sorpresa"):
-
         st.session_state.inicio = True
         st.rerun()
 
@@ -282,85 +203,84 @@ if not st.session_state.inicio:
 
 st.markdown("""
 <div class="tarjeta">
-
-<h2>🌷 Primero quiero decirte algo</h2>
-
-<div class="mensaje">
-
-Gracias por cada momento, cada charla, cada risa
-y cada recuerdo que fuimos creando juntos.
-
-A veces no hace falta hacer algo enorme para que
-un momento sea especial.
-
-Muchas veces alcanza con estar con la persona correcta. ❤️
-
-</div>
-
+    <h2>🌷 Primero quiero decirte algo</h2>
+    <div class="mensaje">
+        Gracias por cada momento, cada charla, cada risa
+        y cada recuerdo que fuimos creando juntos.<br><br>
+        A veces no hace falta hacer algo enorme para que
+        un momento sea especial. Alcanza con estar con la persona correcta. ❤️
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ============================================================
-# CONTADOR DE DÍAS
+# CONTADOR EN VIVO (21 de Junio de 2026)
 # ============================================================
 
-hoy = date.today()
+st.markdown('<div class="tarjeta"><h2>⏳ Tiempo de nuestra historia</h2></div>', unsafe_allow_html=True)
 
-dias_juntos = (hoy - FECHA_INICIO).days
-
-st.markdown(f"""
-<div class="contador">
-
-<div>📅 Llevamos juntos</div>
-
-<div class="numero">{dias_juntos}</div>
-
-<div>días de nuestra historia ❤️</div>
-
+# Reloj en vivo insertado con JavaScript
+reloj_html = """
+<div id="contador" style="
+    text-align: center;
+    background: linear-gradient(135deg, #ff2e63, #c2185b);
+    color: white;
+    border-radius: 20px;
+    padding: 20px;
+    font-family: sans-serif;
+    box-shadow: 0px 4px 15px rgba(255,46,99,0.3);
+">
+    <div style="font-size: 16px; margin-bottom: 8px;">Llevamos juntos exactos:</div>
+    <div id="tiempo" style="font-size: 26px; font-weight: bold; letter-spacing: 1px;">Cargando...</div>
+    <div style="font-size: 16px; margin-top: 8px;">❤️</div>
 </div>
-""", unsafe_allow_html=True)
+
+<script>
+    const fechaInicio = new Date("2026-06-21T00:00:00").getTime();
+
+    function actualizarContador() {
+        const ahora = new Date().getTime();
+        const diferencia = ahora - fechaInicio;
+
+        if (diferencia < 0) {
+            document.getElementById("tiempo").innerHTML = "¡Falta muy poco!";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        document.getElementById("tiempo").innerHTML = 
+            dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+    }
+
+    setInterval(actualizarContador, 1000);
+    actualizarContador();
+</script>
+"""
+components.html(reloj_html, height=140)
 
 # ============================================================
 # TRIVIA
 # ============================================================
 
-st.markdown("""
-<div class="tarjeta">
-
-<h2>🧠 Trivia de nuestra historia</h2>
-
-<p>
-Ahora viene una pequeña prueba...
-A ver cuánto te acordás de nosotros 😌❤️
-</p>
-
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="tarjeta"><h2>🧠 Trivia de nuestra historia</h2><p style="text-align:center;">A ver cuánto te acordás de nosotros 😌❤️</p></div>', unsafe_allow_html=True)
 
 if not st.session_state.trivia_terminada:
-
     pregunta_num = st.session_state.pregunta_actual
     pregunta = TRIVIA[pregunta_num]
 
-    st.markdown(
-        f"### Pregunta {pregunta_num + 1} de {len(TRIVIA)}"
-    )
-
-    respuesta = st.radio(
-        pregunta["pregunta"],
-        pregunta["opciones"],
-        key=f"pregunta_{pregunta_num}"
-    )
+    st.markdown(f"### Pregunta {pregunta_num + 1} de {len(TRIVIA)}")
+    respuesta = st.radio(pregunta["pregunta"], pregunta["opciones"], key=f"pregunta_{pregunta_num}")
 
     if st.button("💗 Responder"):
-
         if respuesta == pregunta["correcta"]:
             st.session_state.puntos += 1
             st.success("¡Correcto! ❤️")
         else:
-            st.info(
-                f"La respuesta era: {pregunta['correcta']} 💕"
-            )
+            st.info(f"La respuesta era: {pregunta['correcta']} 💕")
 
         if pregunta_num + 1 < len(TRIVIA):
             st.session_state.pregunta_actual += 1
@@ -368,136 +288,97 @@ if not st.session_state.trivia_terminada:
         else:
             st.session_state.trivia_terminada = True
             st.rerun()
-
 else:
-
     puntos = st.session_state.puntos
     total = len(TRIVIA)
-
     st.markdown(f"""
     <div class="tarjeta">
         <div class="mensaje">
-            🥰 Terminaste la trivia.<br><br>
-            Tu resultado fue:
-            <strong>{puntos}/{total}</strong>
-            ❤️<br><br>
-            Igual, la verdad es que no importa cuánto
-            hayas acertado... lo importante es todo
-            lo que vivimos juntos.
+            🥰 ¡Terminaste la trivia!<br><br>
+            Tu resultado fue: <strong>{puntos}/{total}</strong> ❤️<br><br>
+            Igual, lo importante no es el puntaje sino todo lo que vivimos juntos.
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 # ============================================================
-# PREGUNTA ESPECIAL
+# PREGUNTA ESPECIAL CON BOTÓN ESCAPISTA
 # ============================================================
 
 st.markdown("""
 <div class="tarjeta">
-
-<h2>💞 Una pregunta importante</h2>
-
-<div class="mensaje">
-
-¿Querés seguir creando recuerdos conmigo?
-
-</div>
-
+    <h2>💞 Una pregunta importante</h2>
+    <div class="mensaje">¿Querés seguir creando recuerdos conmigo?</div>
 </div>
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
+if not st.session_state.acepto:
+    col1, col2 = st.columns(2)
 
-with col1:
-    if st.button("❤️ Sí"):
-        st.session_state.respuesta_final = True
-        st.balloons()
+    with col1:
+        if st.button("❤️ ¡SÍ!"):
+            st.session_state.acepto = True
+            st.balloons()
+            st.rerun()
 
-with col2:
-    if st.button("🥺 No"):
-        st.session_state.respuesta_final = True
+    with col2:
+        textos_no = [
+            "🥺 No",
+            "¿Segura? 😜",
+            "¡Ey, esa opción no vale!",
+            "Epa... apretá el SÍ 😂",
+            "Imposible decir que no 💖"
+        ]
+        texto_boton_no = textos_no[min(st.session_state.intentos_no, len(textos_no)-1)]
 
-if st.session_state.respuesta_final:
-
+        if st.button(texto_boton_no):
+            st.session_state.intentos_no += 1
+            st.rerun()
+else:
     st.markdown("""
     <div class="tarjeta">
-
-    <div class="mensaje">
-
-    Entonces seguimos sumando momentos,
-    risas, charlas y recuerdos. ❤️
-
-    <br><br>
-
-    Y todavía quedan muchísimas cosas por vivir.
-
-    </div>
-
+        <div class="mensaje">
+            ¡Sabía que ibas a decir que sí! 😍<br>
+            Seguimos sumando momentos, risas y recuerdos juntos. ❤️
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
 # ============================================================
-# CARTA FINAL
+# CARTA FINAL CON CONTRASEÑA
 # ============================================================
 
 st.markdown("""
 <div class="tarjeta">
-
-<h2>💌 La carta final</h2>
-
+    <h2>🔒 La carta secreta</h2>
+    <p style="text-align:center;">Para leer la carta necesitás ingresar la clave secreta.</p>
 </div>
 """, unsafe_allow_html=True)
 
-if st.button("🎁 Abrir la carta"):
+clave_ingresada = st.text_input("🔑 Ingresá la contraseña:", type="password", help="Pista: Una palabra que digo mucho 😉")
 
+if clave_ingresada.lower().strip() == "chichi":
+    st.success("¡Contraseña correcta! ❤️")
     st.markdown(f"""
     <div class="carta">
-
-    <h2>Para {NOMBRE_NOVIA} ❤️</h2>
-
-    Quería hacerte algo diferente y por eso terminé
-    haciendo esta pequeña página para vos.
-
-    <br><br>
-
-    No sé si existe una forma perfecta de explicar
-    lo mucho que significás para mí, pero sí sé que
-    me encanta compartir momentos con vos.
-
-    <br><br>
-
-    Gracias por las risas, por las conversaciones,
-    por los momentos lindos y también por estar
-    en los momentos que no son tan fáciles.
-
-    <br><br>
-
-    Espero que podamos seguir sumando recuerdos,
-    haciendo planes y viviendo muchas cosas juntos.
-
-    <br><br>
-
-    Esta página puede terminar acá, pero nuestra
-    historia todavía tiene muchísimas páginas por escribir.
-
-    <div class="firma">
-    Con mucho cariño ❤️<br>
-    Tu novio
-    </div>
-
+        <h2>Para {NOMBRE_NOVIA} ❤️</h2>
+        Quería hacerte algo diferente y por eso terminé haciendo esta pequeña página para vos.<br><br>
+        No sé si existe una forma perfecta de explicar lo mucho que significás para mí, pero sí sé que me encanta compartir cada día con vos.<br><br>
+        Gracias por las risas, por las conversaciones, por los momentos lindos y también por estar en los momentos que no son tan fáciles.<br><br>
+        Espero que podamos seguir sumando recuerdos, haciendo planes y viviendo muchas cosas juntos.<br><br>
+        Esta página puede terminar acá, pero nuestra historia todavía tiene muchísimas páginas por escribir.
+        <div class="firma">
+            Con mucho cariño ❤️<br>
+            Tu novio
+        </div>
     </div>
     """, unsafe_allow_html=True)
+elif clave_ingresada != "":
+    st.error("Contraseña incorrecta... Pensá en una palabra que te diga muy seguido 😜")
 
 # ============================================================
 # FINAL
 # ============================================================
 
-st.markdown("""
-<div class="corazones">
-    💗 ❤️ 💕 💖 💗
-</div>
-
-<div style="text-align:center; color:#8e3658;">
-    Fin de la sorpresa ✨
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="corazones">💗 ❤️ 💕 💖 💗</div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align:center; color:#ff85a2;">Fin de la sorpresa ✨</div>', unsafe_allow_html=True)
