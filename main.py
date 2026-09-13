@@ -14,57 +14,74 @@ st.set_page_config(
 
 NOMBRE_NOVIA = "Mi amor"
 
-# Preguntas de la trivia
+# Trivia personalizada
 TRIVIA = [
     {
-        "pregunta": "¿Cuál fue nuestro primer plan juntos?",
+        "pregunta": "¿Cuál de estas palabras digo más? 🥺",
         "opciones": [
-            "Ir a comer",
-            "Mirar una película",
-            "Salir a caminar",
-            "Quedarnos hablando horas"
+            "gordita",
+            "te amo",
+            "chichi",
+            "sos hermosa"
         ],
-        "correcta": "Quedarnos hablando horas"
+        "correcta": "chichi"
     },
     {
-        "pregunta": "¿Qué es algo que más me gusta de vos?",
+        "pregunta": "¿Qué fue lo primero que hicimos cuando nos vimos?",
         "opciones": [
-            "Tu forma de ser",
-            "Tu sonrisa",
-            "Cómo me hacés reír",
-            "Todo lo anterior"
+            "comer un dos corazones",
+            "ir al cine agarrados de la mano",
+            "ir a la ribera a dar vueltas",
+            "tomar mates"
         ],
-        "correcta": "Todo lo anterior"
+        "correcta": "ir al cine agarrados de la mano"
     },
     {
-        "pregunta": "¿Qué prefiero hacer con vos?",
+        "pregunta": "Sinceramente... ¿quién es el más caprichoso y consentido de los dos? 😜",
         "opciones": [
-            "Salir",
-            "Mirar películas",
-            "Hablar durante horas",
-            "Cualquier cosa, mientras sea con vos"
+            "Vos, sin duda",
+            "Yo (tu nene caprichoso)",
+            "Los dos por igual cuando queremos mimos",
+            "Ninguno, somos re serios"
         ],
-        "correcta": "Cualquier cosa, mientras sea con vos"
+        "correcta": "Yo (tu nene caprichoso)"
+    },
+    {
+        "pregunta": "¿Qué es lo que NUNCA puede faltar cuando estamos juntos?",
+        "opciones": [
+            "estar abrazados",
+            "besos",
+            "hacer cosas q no son de dios",
+            "todas son correctas"
+        ],
+        "correcta": "todas son correctas"
+    },
+    {
+        "pregunta": "¿Qué es lo que más me gusta de vos?",
+        "opciones": [
+            "tus chichis",
+            "tu orto",
+            "q me cumplas los caprichos",
+            "tus ojazos"
+        ],
+        "correcta": "tus ojazos"
     }
 ]
 
 # ============================================================
-# ESTILOS MODO OSCURO (FONDO NEGRO Y TEXTO LEGIBLE)
+# ESTILOS MODO OSCURO
 # ============================================================
 
 st.markdown("""
 <style>
-    /* Fondo general negro */
     .stApp {
         background-color: #0b0b0d !important;
     }
 
-    /* Textos generales en blanco */
     .stApp p, .stApp label, .stMarkdown, h1, h2, h3, span {
         color: #ffffff !important;
     }
 
-    /* Tarjetas oscuras con borde rosa neón */
     .tarjeta {
         background: #16161a;
         border-radius: 20px;
@@ -108,7 +125,6 @@ st.markdown("""
         margin: 10px 0;
     }
 
-    /* Carta estilo pergamino oscuro */
     .carta {
         background: #1f1f24;
         border-radius: 15px;
@@ -127,7 +143,6 @@ st.markdown("""
         color: #ff2e63 !important;
     }
 
-    /* Estilo de botones */
     .stButton > button {
         width: 100%;
         border-radius: 12px;
@@ -139,7 +154,6 @@ st.markdown("""
         border: none !important;
     }
 
-    /* Ocultar elementos de interfaz */
     #MainMenu, footer, header {
         visibility: hidden;
     }
@@ -219,7 +233,6 @@ st.markdown("""
 
 st.markdown('<div class="tarjeta"><h2>⏳ Tiempo de nuestra historia</h2></div>', unsafe_allow_html=True)
 
-# Reloj en vivo insertado con JavaScript
 reloj_html = """
 <div id="contador" style="
     text-align: center;
@@ -369,7 +382,7 @@ if clave_ingresada.lower().strip() == "chichi":
         Esta página puede terminar acá, pero nuestra historia todavía tiene muchísimas páginas por escribir.
         <div class="firma">
             Con mucho cariño ❤️<br>
-            Tu novio
+            Tu nene caprichoso
         </div>
     </div>
     """, unsafe_allow_html=True)
